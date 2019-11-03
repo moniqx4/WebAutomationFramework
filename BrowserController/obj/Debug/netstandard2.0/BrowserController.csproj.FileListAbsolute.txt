@@ -1,0 +1,5 @@
+D:\Monica\Projects\WebAutomationFramework\BrowserController\bin\Debug\netstandard2.0\BrowserController.deps.json
+D:\Monica\Projects\WebAutomationFramework\BrowserController\bin\Debug\netstandard2.0\BrowserController.dll
+D:\Monica\Projects\WebAutomationFramework\BrowserController\obj\Debug\netstandard2.0\BrowserController.csprojAssemblyReference.cache
+D:\Monica\Projects\WebAutomationFramework\BrowserController\obj\Debug\netstandard2.0\BrowserController.AssemblyInfoInputs.cache
+D:\Monica\Projects\WebAutomationFramework\BrowserController\obj\Debug\netstandard2.0\BrowserController.AssemblyInfo.cs

@@ -1,0 +1,9 @@
+D:\Monica\Projects\WebAutomationFramework\TestRunnerLibrary\bin\Debug\netstandard2.0\TestRunnerLibrary.deps.json
+D:\Monica\Projects\WebAutomationFramework\TestRunnerLibrary\bin\Debug\netstandard2.0\TestRunnerLibrary.dll
+D:\Monica\Projects\WebAutomationFramework\TestRunnerLibrary\obj\Debug\netstandard2.0\TestRunnerLibrary.AssemblyInfoInputs.cache
+D:\Monica\Projects\WebAutomationFramework\TestRunnerLibrary\obj\Debug\netstandard2.0\TestRunnerLibrary.AssemblyInfo.cs
+D:\Monica\Projects\WebAutomationFramework\TestRunnerLibrary\obj\Debug\netstandard2.0\TestRunnerLibrary.csprojAssemblyReference.cache
+D:\Monica\Projects\WebAutomationFramework\TestRunnerLibrary\bin\Debug\netstandard2.0\NUnit3.TestAdapter.dll
+D:\Monica\Projects\WebAutomationFramework\TestRunnerLibrary\bin\Debug\netstandard2.0\NUnit3.TestAdapter.pdb
+D:\Monica\Projects\WebAutomationFramework\TestRunnerLibrary\bin\Debug\netstandard2.0\nunit.engine.dll
+D:\Monica\Projects\WebAutomationFramework\TestRunnerLibrary\bin\Debug\netstandard2.0\nunit.engine.api.dll

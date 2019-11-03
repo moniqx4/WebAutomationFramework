@@ -1,0 +1,3 @@
+D:\Monica\Projects\WebAutomationFramework\PageObjects\obj\Debug\netstandard2.0\PageObjects.csprojAssemblyReference.cache
+D:\Monica\Projects\WebAutomationFramework\PageObjects\obj\Debug\netstandard2.0\PageObjects.AssemblyInfoInputs.cache
+D:\Monica\Projects\WebAutomationFramework\PageObjects\obj\Debug\netstandard2.0\PageObjects.AssemblyInfo.cs
