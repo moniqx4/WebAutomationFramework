@@ -4,6 +4,8 @@ namespace BrowserController.Selenium.Interfaces
 {
     public interface IWebPage
     {
+        // bool Displayed { get; }
+
         IWebElement FindElement(By by);
 
         IWebElement FindElementById(string element);
@@ -25,6 +27,8 @@ namespace BrowserController.Selenium.Interfaces
         IWebElement FindElementByTagName(string element);
 
         IJavaScriptExecutor ExecuteScriptExecutor();
+
+        
 
 
     }

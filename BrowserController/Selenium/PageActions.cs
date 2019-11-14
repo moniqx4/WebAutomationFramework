@@ -6,6 +6,7 @@ using SeleniumExtras.WaitHelpers;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using ExpectedConditions = SeleniumExtras.WaitHelpers.ExpectedConditions;
 
 namespace BrowserController.Selenium
 {
@@ -55,11 +56,11 @@ namespace BrowserController.Selenium
             SwitchToAlert(expMessage);
         }
 
-        public void ClickWhenVisible(string element)
+        public void ClickWhenVisible(string element, string drivertype = "chrome")
         {
             try
             {
-                new WebDriverWait(_webDriver,
+                new WebDriverWait(_webDriver.WebDriver(drivertype),
                                   TimeSpan.FromSeconds(10)).Until(
                     ExpectedConditions.ElementToBeClickable(_webPage.FindElement(By.Id(element)))).Click();
             }
@@ -69,11 +70,11 @@ namespace BrowserController.Selenium
             }
         }
 
-        public void ClickWhenVisible(string element, int seconds)
+        public void ClickWhenVisible(string element, int seconds, string drivertype = "chrome")
         {
             try
             {
-                new WebDriverWait(_instance, TimeSpan.FromSeconds(seconds)).Until(_instance => _instance.FindElement(By.Id(element)).Displayed);
+                new WebDriverWait(_webDriver.WebDriver(drivertype), TimeSpan.FromSeconds(seconds)).Until(_instance => _instance.FindElement(By.Id(element)).Displayed);
 
                 //.ElementToBeClickable(FindElement(By.Id(element)))).Click(); // TODO: Fix this
             }
@@ -84,11 +85,17 @@ namespace BrowserController.Selenium
             }
         }
 
-        public void ClickWhenVisibleCSS(string element)
+        public void ClickPageElement(string element, string strategy = "Id")
+        {
+            _webPage.LocateElement(element, strategy).Click();
+
+        }
+
+        public void ClickWhenVisibleCSS(string element, string drivertype = "chrome")
         {
             try
             {
-                new WebDriverWait(_instance, TimeSpan.FromSeconds(10)).Until(
+                new WebDriverWait(_webDriver.WebDriver(drivertype), TimeSpan.FromSeconds(10)).Until(
                     ExpectedConditions.ElementToBeClickable(_webPage.FindElement(By.CssSelector(element)))).Click();
 
             }
@@ -99,16 +106,43 @@ namespace BrowserController.Selenium
             }
         }
 
-
-        public void Close()
+        public void ClickWhenVisible(string element, string strategy = "Id", string drivertype = "chrome")
         {
-            _instance.Quit();
+            var pageObj = _webPage.LocateElement(element, strategy);
+            
+
+            try
+            {
+                if (!pageObj.Displayed)
+                {
+
+                    new WebDriverWait(_webDriver.WebDriver(drivertype), TimeSpan.FromSeconds(10)).Until(
+                    ExpectedConditions.ElementToBeClickable(_webPage.FindElement(By.CssSelector(element)))).Click();
+                }
+                else
+                {
+                    _webPage.LocateElement(element, strategy).Click();
+                }
+               
+            }
+            catch (StaleElementReferenceException)
+            {
+
+                _webPage.LocateElement(element, strategy).Click();
+            }
         }
 
-        public void CloseBrowserTab()
+
+        public void Close(string drivertype = "chrome")
+        {
+            _webDriver.WebDriver(drivertype).Quit();
+
+        }
+
+        public void CloseBrowserTab(string drivertype = "chrome")
         {
             //CTRL W to close tab
-            Actions act = new Actions(_instance);
+            Actions act = new Actions(_webDriver.WebDriver(drivertype));
             act.KeyDown(Keys.Control).SendKeys("w").Perform();
         }
 
@@ -151,9 +185,9 @@ namespace BrowserController.Selenium
             return text;
         }
 
-        public List<System.Net.Cookie> GetCookies()
+        public List<System.Net.Cookie> GetCookies(string drivertype = "chrome")
         {
-            var cookies = _instance.Manage().Cookies;
+            var cookies = _webDriver.WebDriver(drivertype).Manage().Cookies;
 
             var result = new List<System.Net.Cookie>();
 
@@ -178,24 +212,25 @@ namespace BrowserController.Selenium
             return result;
         }
 
-        public string GetCurrentUrl()
+        public string GetCurrentUrl(string drivertype = "chrome")
         {
-            return _instance.Url;
+            return _webDriver.WebDriver(drivertype).Url;
         }
 
-        public void GetLastBrowserTab()
+        public void GetLastBrowserTab(string drivertype)
         {
-            _instance.SwitchTo().Window(_instance.WindowHandles.Last());
+            var numTabs = _webDriver.WebDriver(drivertype).WindowHandles.Count;
+            _webDriver.WebDriver(drivertype).SwitchTo().Window((numTabs - 1).ToString());
         }
 
-        public string GetPageSource()
+        public string GetPageSource(string drivertype = "chrome")
         {
-            return _instance.PageSource;
+            return _webDriver.WebDriver(drivertype).PageSource;
         }
 
-        public string GetSessionId()
+        public string GetSessionId(string drivertype = "chrome")
         {
-            return _instance.SessionId.ToString();
+            return _webDriver.WebDriver(drivertype).SessionId.ToString(); //TODO: Fix
         }
 
         public List<IWebElement> GetAllSelectBoxElements(string element)
@@ -221,7 +256,7 @@ namespace BrowserController.Selenium
             return (GetCurrentUrl() == pageurl);
         }
 
-        public void NavigateTo(string pagePath, string isSecure = "N")
+        public void NavigateTo(string pagePath, string drivertype, string isSecure = "N")
         {
             var protocol = isSecure == "Y" ? "https" : "http";
 
@@ -231,7 +266,7 @@ namespace BrowserController.Selenium
 
             try
             {
-                _instance.Navigate().GoToUrl(url.AbsoluteUri);
+                _webDriver.WebDriver(drivertype).Navigate().GoToUrl(url.AbsoluteUri);
             }
             catch (Exception ex)
             {
@@ -239,7 +274,7 @@ namespace BrowserController.Selenium
             }
         }
 
-        public void NavigateTo(string pagePath, object query, string isSecure = "N")
+        public void NavigateTo(string pagePath, object query, string drivertype = "chrome", string isSecure = "N")
         {
             var protocol = isSecure == "Y" ? "https" : "http";
 
@@ -249,7 +284,7 @@ namespace BrowserController.Selenium
 
             try
             {
-                _instance.Navigate().GoToUrl(url.AbsoluteUri);
+                _webDriver.WebDriver(drivertype).Navigate().GoToUrl(url.AbsoluteUri);
             }
             catch (Exception ex)
             {
@@ -283,19 +318,19 @@ namespace BrowserController.Selenium
             selectElement.SelectByText(elementvalue);
         }
 
-        public void SwitchTab(int tabnumber)
+        public void SwitchTab(int tabnumber, string drivertype = "chrome")
         {
-            _instance.SwitchTo().Window(_instance.WindowHandles[tabnumber]);
+            _webDriver.WebDriver(drivertype).SwitchTo().Window(_webDriver.WebDriver(drivertype).WindowHandles[tabnumber]);
         }
 
-        public void SwitchTo(string windowname)
+        public void SwitchTo(string windowname, string drivertype = "chrome")
         {
-            _instance.SwitchTo().Window(windowname);
+            _webDriver.WebDriver(drivertype).SwitchTo().Window(windowname);
         }
 
-        public void SwitchToAlert(string expMessage)
+        public void SwitchToAlert(string expMessage, string drivertype ="chrome")
         {
-            IAlert alert = _instance.SwitchTo().Alert();
+            IAlert alert = _webDriver.WebDriver(drivertype).SwitchTo().Alert();
             if (alert.Text.Equals(expMessage))
             {
                 alert.Accept();
@@ -306,9 +341,9 @@ namespace BrowserController.Selenium
             }
         }
 
-        public void SwitchtoModalPopup(string windowname)
+        public void SwitchtoModalPopup(string windowname, string drivertype = "chrome")
         {
-            SwitchTo(windowname);
+            SwitchTo(windowname,drivertype);
         }
 
         public bool WaitForElementVisibile(string element)
@@ -326,43 +361,43 @@ namespace BrowserController.Selenium
 
        
 
-        public void WaitsecondsId(int seconds, string elementId)
+        public void WaitsecondsId(int seconds, string elementId, string drivertype = "chrome")
         {
-            new WebDriverWait(_instance, TimeSpan.FromSeconds(seconds))
+            new WebDriverWait(_webDriver.WebDriver(drivertype), TimeSpan.FromSeconds(seconds))
               .Until(ExpectedConditions.ElementIsVisible(By.Id(elementId)));
         }
 
-        public void WaitSecsForObjectByClass(int seconds, string classname)
+        public void WaitSecsForObjectByClass(int seconds, string classname, string drivertype = "chrome")
         {
-            new WebDriverWait(_instance, TimeSpan.FromSeconds(seconds))
+            new WebDriverWait(_webDriver.WebDriver(drivertype), TimeSpan.FromSeconds(seconds))
                .Until(ExpectedConditions.ElementIsVisible(By.ClassName(classname)));
         }
 
-        public void WaitSecsForPageRefresh(int seconds)
+        public TimeSpan WaitSecsForPageRefresh(int seconds, string drivertype = "chrome")
         {
-            _instance.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(seconds));
+            return _webDriver.WebDriver(drivertype).Manage().Timeouts().ImplicitWait;
         }
 
-        public void WaitSecsForText(int seconds, string screentext)
+        public void WaitSecsForText(int seconds, string screentext, string drivertype = "chrome")
         {
-            new WebDriverWait(_instance, TimeSpan.FromSeconds(seconds))
+            new WebDriverWait(_webDriver.WebDriver(drivertype), TimeSpan.FromSeconds(seconds))
                 .Until(ExpectedConditions.ElementIsVisible(By.LinkText(screentext)));
         }
 
-        public void WaitSecsForUrl(int seconds, string pageurl)
+        public void WaitSecsForUrl(int seconds, string pageurl, string drivertype = "chrome")
         {
-            new WebDriverWait(_instance, TimeSpan.FromSeconds(seconds)).Equals(IsUrlLoaded(pageurl));
+            new WebDriverWait(_webDriver.WebDriver(drivertype), TimeSpan.FromSeconds(seconds)).Equals(IsUrlLoaded(pageurl));
         }
 
-        public void WaitTilPageLoads(string csselement)
+        public void WaitTilPageLoads(string csselement, string drivertype = "chrome")
         {
-            new WebDriverWait(_instance, TimeSpan.FromSeconds(60))
+            new WebDriverWait(_webDriver.WebDriver(drivertype), TimeSpan.FromSeconds(60))
                .Until(ExpectedConditions.ElementSelectionStateToBe(By.CssSelector(csselement), true));
         }
                 
-        public void ChangeWindowSize(int width, int height)
+        public void ChangeWindowSize(int width, int height, string drivertype = "chrome")
         {
-            _instance.Manage().Window.Size = new System.Drawing.Size(width, height);
+            _webDriver.WebDriver(drivertype).Manage().Window.Size = new System.Drawing.Size(width, height);
         }
     }
 }

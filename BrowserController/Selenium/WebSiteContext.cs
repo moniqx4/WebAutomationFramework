@@ -4,19 +4,15 @@ namespace BrowserController.Selenium
 {
     public class WebSiteContext
     {
-        private IPageActions pageAction;
-        private INavigator navigator;
-        private IWebPage webPage;
-
         public string SiteUrl { get; internal set; }
 
         public bool IsMobile { get; internal set; }
 
-        public IPageActions PageActions { get => pageAction; internal set => pageAction = value; }
+        public IPageActions PageActions { get; internal set; }
 
-        public INavigator Navigator { get => navigator; internal set => navigator = value; }
+        public INavigator Navigator { get; internal set; }
 
-        public IWebPage WebPage { get => webPage; internal set => webPage = value; }
+        public IWebPage WebPage { get; internal set; }
 
         internal void Close()
         {

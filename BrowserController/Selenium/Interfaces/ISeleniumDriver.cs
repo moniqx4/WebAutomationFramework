@@ -4,7 +4,7 @@ namespace BrowserController.Selenium.Interfaces
 {
     public interface ISeleniumDriver
     {
-        IWebDriver WebDriver(string drivertype);
+        IWebDriver WebDriver(string drivertype = "chrome");
 
     }
 }

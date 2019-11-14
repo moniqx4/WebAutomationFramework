@@ -1,18 +1,24 @@
 ﻿using BrowserController.Selenium.Interfaces;
 using OpenQA.Selenium;
 using System;
-using System.Collections.Generic;
-using System.Text;
+
 
 namespace BrowserController.Selenium
 {
-    public class webPage : IWebPage
+    
+    /// <summary>
+    /// This is for Finding Elements on a web page
+    /// </summary>
+    public class WebPage : IWebPage
     {
-        // private readonly IPageActions 
-        public webPage()
+        // private readonly IPageActions
+
+        public WebPage()
         {
 
         }
+
+        // public bool Displayed { get { return false; } }
 
         public IJavaScriptExecutor ExecuteScriptExecutor()
         {
@@ -88,7 +94,7 @@ namespace BrowserController.Selenium
 
             return htmlelement;
         }
-
+        
         public IWebElement LocateElement(string elementname, string strategy = "Id")
         {
             switch (strategy)

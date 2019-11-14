@@ -1,0 +1,5 @@
+D:\Monica\Projects\WebAutomationFramework\DataProvider\bin\Debug\netstandard2.0\DataProvider.deps.json
+D:\Monica\Projects\WebAutomationFramework\DataProvider\bin\Debug\netstandard2.0\DataProvider.dll
+D:\Monica\Projects\WebAutomationFramework\DataProvider\obj\Debug\netstandard2.0\DataProvider.csprojAssemblyReference.cache
+D:\Monica\Projects\WebAutomationFramework\DataProvider\obj\Debug\netstandard2.0\DataProvider.AssemblyInfoInputs.cache
+D:\Monica\Projects\WebAutomationFramework\DataProvider\obj\Debug\netstandard2.0\DataProvider.AssemblyInfo.cs

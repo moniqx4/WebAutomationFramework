@@ -4,16 +4,16 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Edge;
-using OpenQA.Selenium.Remote;
 using BrowserController.Selenium.Interfaces;
+using OpenQA.Selenium.Remote;
 
 namespace BrowserController.Selenium
 {
     public class SeleniumDriver : ISeleniumDriver
     {
-        private readonly RemoteWebDriver _instance;
-        public IWebDriver _driver;
-        public SeleniumDriver(IWebDriver driver)
+        // public IWebDriver _driver;
+        public RemoteWebDriver _driver;
+        public SeleniumDriver(RemoteWebDriver driver)
         {
             _driver = driver;
 
@@ -22,18 +22,18 @@ namespace BrowserController.Selenium
         public IWebDriver WebDriver(string drivertype)
         {
 
-            switch (drivertype)
+            switch (drivertype.ToLower())
             {
-                case "Chrome":
+                case "chrome":
                     _driver = new ChromeDriver();
                     break;
-                case "IE":
+                case "ie":
                     _driver = new InternetExplorerDriver();
                     break;
-                case "FireFox":
+                case "firefox":
                     _driver = new FirefoxDriver();
                     break;
-                case "MSEdge":
+                case "msedge":
                     _driver = new EdgeDriver();
                     break;
                 default:
